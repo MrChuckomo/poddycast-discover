@@ -1,1 +1,1 @@
-# poddycast-discorver
+# poddycast-discover
