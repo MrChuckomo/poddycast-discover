@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:podcast_search/podcast_search.dart';
+import 'package:poddycast_discover/features/search/presentation/widgets/player.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/search_results.dart';
+import 'package:poddycast_discover/features/search/presentation/widgets/top_x_podcasts.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -60,6 +62,7 @@ class _SearchPageState extends State<SearchPage> {
         padding: const EdgeInsets.all(21.0),
         child: Column(
           children: [
+            Player(),
             TextField(
               controller: _searchController,
               onChanged: searchItunes,
@@ -68,6 +71,8 @@ class _SearchPageState extends State<SearchPage> {
                 border: OutlineInputBorder(),
               ),
             ),
+            SizedBox(height: 12),
+            TopXPodcasts(),
             SizedBox(height: 12),
             Expanded(
               child:
