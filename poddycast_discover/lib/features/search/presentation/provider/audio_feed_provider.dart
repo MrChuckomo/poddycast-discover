@@ -1,20 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:podcast_search/podcast_search.dart';
 
 class AudioFeedProvider extends ChangeNotifier {
+  final AudioPlayer _player = AudioPlayer();
   String _feedUrl = '';
-  Episode? _episode = null;
+  bool _isLoading = false;
+  bool _isPlaying = false;
+  Episode? _episode;
 
   String get feedUrl => _feedUrl;
   Episode? get episode => _episode;
+  bool get isLoading => _isLoading;
+  bool get isPlaying => _isPlaying;
+  AudioPlayer get player => _player;
+
+  /// Load and play an audio file
+  Future<void> playEpisode(Episode episode) async {
+    if (_episode?.contentUrl == episode.contentUrl && _isPlaying) {
+      return; // Prevent reloading the same episode
+    }
+
+    setEpisode(episode);
+    try {
+      _isLoading = true;
+      _player.stop();
+      await _player.setUrl(episode.contentUrl!);
+      _player.play();
+      _isPlaying = true;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error playing audio: $e');
+      _isPlaying = false;
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  /// Pause playback
+  void pause() {
+    _player.pause();
+    _isPlaying = false;
+    notifyListeners();
+  }
+
+  /// Resume playback
+  void resume() {
+    _player.play();
+    _isPlaying = true;
+    notifyListeners();
+  }
 
   void setFeedUrl(String value) {
     _feedUrl = value;
     notifyListeners();
   }
 
-  void setEpiode(Episode value) {
+  void setEpisode(Episode value) {
     _episode = value;
     notifyListeners();
+  }
+
+  /// Dispose the player when not needed
+  @override
+  void dispose() {
+    _player.dispose();
+    super.dispose();
   }
 }

@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:podcast_search/podcast_search.dart';
+import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/player.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/search_results.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/top_x_podcasts.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -51,6 +53,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final audioProvider = Provider.of<AudioFeedProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -63,8 +66,12 @@ class _SearchPageState extends State<SearchPage> {
         // shadowColor: Colors.transparent,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.play_arrow),
+        onPressed:
+            () =>
+                audioProvider.isPlaying
+                    ? audioProvider.pause()
+                    : audioProvider.resume(),
+        child: Icon(audioProvider.isPlaying ? Icons.pause : Icons.play_arrow),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Padding(

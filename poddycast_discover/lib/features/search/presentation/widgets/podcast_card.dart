@@ -42,7 +42,7 @@ class _PodcastCardState extends State<PodcastCard> {
               title: Text(feed.episodes[index].title),
               subtitle: Text('${feed.episodes[index].publicationDate}'),
               onTap: () {
-                context.read<AudioFeedProvider>().setEpiode(
+                context.read<AudioFeedProvider>().playEpisode(
                   feed.episodes[index],
                 );
               },
