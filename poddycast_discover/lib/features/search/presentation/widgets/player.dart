@@ -13,6 +13,9 @@ class Player extends StatefulWidget {
 }
 
 class _PlayerState extends State<Player> {
+  bool _isDragging = false; // Track if slider is being dragged
+  Duration _manualPosition = Duration.zero; // Hold position during drag
+
   String getTitle(Episode ep) {
     return '${ep.title.substring(0, min(ep.title.length, 32))}...';
   }
@@ -53,7 +56,10 @@ class _PlayerState extends State<Player> {
         StreamBuilder<Duration>(
           stream: audioProvider.player.positionStream,
           builder: (context, positionSnapshot) {
-            final position = positionSnapshot.data ?? Duration.zero;
+            final position =
+                _isDragging
+                    ? _manualPosition
+                    : (positionSnapshot.data ?? Duration.zero);
             return StreamBuilder<Duration?>(
               stream: audioProvider.player.durationStream,
               builder: (context, durationSnapshot) {
@@ -68,12 +74,23 @@ class _PlayerState extends State<Player> {
                         duration.inMilliseconds.toDouble(),
                       ),
                       onChanged: (value) {
-                        audioProvider.player.seek(
+                        setState(() {
+                          _isDragging = true;
+                          _manualPosition = Duration(
+                            milliseconds: value.toInt(),
+                          );
+                        });
+                      },
+                      onChangeEnd: (value) async {
+                        _isDragging = false;
+                        await audioProvider.player.seek(
                           Duration(milliseconds: value.toInt()),
                         );
                       },
                     ),
-                    Text('${_formatDuration(position)} / ${_formatDuration(duration)}'),
+                    Text(
+                      '${_formatDuration(position)} / ${_formatDuration(duration)}',
+                    ),
                   ],
                 );
               },
