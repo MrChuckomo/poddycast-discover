@@ -74,12 +74,12 @@ class _SearchPageState extends State<SearchPage> {
         child: Icon(audioProvider.isPlaying ? Icons.pause : Icons.play_arrow),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Padding(
-        padding: const EdgeInsets.all(21.0),
-        child: Column(
-          children: [
-            Player(),
-            TextField(
+      body: Column(
+        children: [
+          Player(),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: TextField(
               controller: _searchController,
               onChanged: searchItunes,
               decoration: InputDecoration(
@@ -87,17 +87,17 @@ class _SearchPageState extends State<SearchPage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 12),
-            TopXPodcasts(),
-            SizedBox(height: 12),
-            Expanded(
-              child:
-                  _isLoading
-                      ? Center(child: CircularProgressIndicator())
-                      : SearchResults(items: _items),
-            ),
-          ],
-        ),
+          ),
+          SizedBox(height: 12),
+          TopXPodcasts(),
+          SizedBox(height: 12),
+          Expanded(
+            child:
+                _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : SearchResults(items: _items),
+          ),
+        ],
       ),
     );
   }

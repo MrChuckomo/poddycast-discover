@@ -14,18 +14,21 @@ class SearchResults extends StatefulWidget {
 class _SearchResultsState extends State<SearchResults> {
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+        ),
+        itemCount: widget.items.length,
+        itemBuilder: (context, index) {
+          return PodcastCard(
+            artworkUrl: widget.items[index].artworkUrl600 ?? '',
+            feedUrl: widget.items[index].feedUrl ?? '',
+            // callback: () => callFeed(widget.items[index].feedUrl ?? ''),
+          );
+        },
       ),
-      itemCount: widget.items.length,
-      itemBuilder: (context, index) {
-        return PodcastCard(
-          artworkUrl: widget.items[index].artworkUrl600 ?? '',
-          feedUrl: widget.items[index].feedUrl ?? '',
-          // callback: () => callFeed(widget.items[index].feedUrl ?? ''),
-        );
-      },
     );
   }
 }

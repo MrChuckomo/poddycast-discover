@@ -29,18 +29,24 @@ class _TopXPodcastsState extends State<TopXPodcasts> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Top 10 Podcasts'),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Text('Top 10 Podcasts'),
+        ),
         const SizedBox(height: 12),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(_items.length, (index) {
-              return SizedBox(
-                height: 150,
-                width: 150,
-                child: PodcastCard(
-                  artworkUrl: _items[index].artworkUrl600 ?? '',
-                  feedUrl: _items[index].feedUrl ?? '',
+              return Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: SizedBox(
+                  height: 150,
+                  width: 150,
+                  child: PodcastCard(
+                    artworkUrl: _items[index].artworkUrl600 ?? '',
+                    feedUrl: _items[index].feedUrl ?? '',
+                  ),
                 ),
               );
             }),
