@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
@@ -35,19 +36,44 @@ class _PodcastCardState extends State<PodcastCard> {
       ),
       context: context,
       builder: (context) {
-        return ListView.builder(
-          itemCount: feed.episodes.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(feed.episodes[index].title),
-              subtitle: Text('${feed.episodes[index].publicationDate}'),
-              onTap: () {
-                context.read<AudioFeedProvider>().playEpisode(
-                  feed.episodes[index],
-                );
-              },
-            );
-          },
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.manage_search_outlined),
+                  Icon(Icons.favorite_border_outlined),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: feed.episodes.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    isThreeLine: false,
+                    title: Row(
+                      children: [
+                        Text(feed.episodes[index].title),
+                        // Text(feed.episodes[index].publicationDate.toString()),
+                      ],
+                    ),
+                    // subtitle: Html(data: feed.episodes[index].description),
+                    subtitle: Text(
+                      feed.episodes[index].publicationDate.toString(),
+                    ),
+                    onTap: () {
+                      context.read<AudioFeedProvider>().playEpisode(
+                        feed.episodes[index],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         );
       },
     ).whenComplete(() {
