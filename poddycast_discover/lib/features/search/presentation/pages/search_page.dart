@@ -78,7 +78,7 @@ class _SearchPageState extends State<SearchPage> {
         children: [
           Player(),
           Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: TextField(
               controller: _searchController,
               onChanged: searchItunes,
@@ -88,9 +88,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           ),
-          SizedBox(height: 12),
-          TopXPodcasts(),
-          SizedBox(height: 12),
+          _items.isEmpty ? TopXPodcasts() : SizedBox.shrink(),
           Expanded(
             child:
                 _isLoading

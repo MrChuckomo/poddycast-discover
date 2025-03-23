@@ -53,14 +53,7 @@ class _PodcastCardState extends State<PodcastCard> {
                 itemCount: feed.episodes.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    isThreeLine: false,
-                    title: Row(
-                      children: [
-                        Text(feed.episodes[index].title),
-                        // Text(feed.episodes[index].publicationDate.toString()),
-                      ],
-                    ),
-                    // subtitle: Html(data: feed.episodes[index].description),
+                    title: Text(feed.episodes[index].title),
                     subtitle: Text(
                       feed.episodes[index].publicationDate.toString(),
                     ),
