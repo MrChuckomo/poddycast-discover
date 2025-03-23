@@ -1,6 +1,8 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:podcast_search/podcast_search.dart';
 
 class AudioFeedProvider extends ChangeNotifier {
@@ -16,6 +18,12 @@ class AudioFeedProvider extends ChangeNotifier {
   bool get isPlaying => _isPlaying;
   AudioPlayer get player => _player;
 
+  AudioFeedProvider() {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.black,
+    ));
+  }
+
   /// Load and play an audio file
   Future<void> playEpisode(Episode episode) async {
     if (_episode?.contentUrl == episode.contentUrl && _isPlaying) {
@@ -26,15 +34,21 @@ class AudioFeedProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       _player.stop();
-      await _player.setUrl(
-        episode.contentUrl!,
-        tag: MediaItem(
-          id: '1',
-          title: episode.title,
-          artist: episode.author,
-          artUri: (episode.imageUrl != null) ? Uri.parse(episode.imageUrl!) : null,
+      await _player.setAudioSource(
+        AudioSource.uri(
+          Uri.parse(episode.contentUrl!),
+          tag: MediaItem(
+            id: episode.contentUrl!,
+            title: episode.title,
+            artist: episode.author,
+            artUri:
+                (episode.imageUrl != null)
+                    ? Uri.parse(episode.imageUrl!)
+                    : null,
+          ),
         ),
       );
+      // Ensure audio session is active for iOS
       _player.play();
       _isPlaying = true;
       notifyListeners();
