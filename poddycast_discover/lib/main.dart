@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:poddycast_discover/core/util/audio_handler.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
 import 'package:poddycast_discover/features/search/presentation/pages/search_page.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
 
 void main() async {
-  await initAudioService();
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
   runApp(
     ChangeNotifierProvider(
       create: (context) => AudioFeedProvider(),

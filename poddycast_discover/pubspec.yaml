@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_html: ^3.0.0
   just_audio: ^0.9.46
+  just_audio_background: ^0.0.1-beta.15
   podcast_search: ^0.6.1
   provider: ^6.1.2
 

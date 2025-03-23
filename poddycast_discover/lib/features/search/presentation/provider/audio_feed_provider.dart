@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:podcast_search/podcast_search.dart';
@@ -25,7 +26,15 @@ class AudioFeedProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       _player.stop();
-      await _player.setUrl(episode.contentUrl!);
+      await _player.setUrl(
+        episode.contentUrl!,
+        tag: MediaItem(
+          id: '1',
+          title: episode.title,
+          artist: episode.author,
+          artUri: (episode.imageUrl != null) ? Uri.parse(episode.imageUrl!) : null,
+        ),
+      );
       _player.play();
       _isPlaying = true;
       notifyListeners();
