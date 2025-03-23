@@ -41,6 +41,11 @@ class _PodcastCardState extends State<PodcastCard> {
             return ListTile(
               title: Text(feed.episodes[index].title),
               subtitle: Text('${feed.episodes[index].publicationDate}'),
+              onTap: () {
+                context.read<AudioFeedProvider>().setEpiode(
+                  feed.episodes[index],
+                );
+              },
             );
           },
         );

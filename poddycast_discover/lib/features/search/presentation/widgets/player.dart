@@ -46,13 +46,17 @@ class _PlayerState extends State<Player> {
 
   @override
   Widget build(BuildContext context) {
+    Episode? ep = context.watch<AudioFeedProvider>().episode;
     return ListTile(
       leading:
           _isLoading
               ? CircularProgressIndicator()
               : Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
-      title: Text(context.watch<AudioFeedProvider>().feedUrl),
-      subtitle: Text(_currentTitle),
+      title: Text(ep?.title ?? ''),
+      subtitle: Text(ep?.author ?? ''),
+      // trailing: Image.network(
+      //   context.read<AudioFeedProvider>().episode?.imageUrl ?? '',
+      // ),
       onTap:
           () =>
               _isPlaying

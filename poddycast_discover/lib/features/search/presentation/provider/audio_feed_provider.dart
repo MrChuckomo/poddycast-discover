@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:podcast_search/podcast_search.dart';
 
 class AudioFeedProvider extends ChangeNotifier {
   String _feedUrl = '';
-  // String _episode = '';
+  Episode? _episode = null;
 
   String get feedUrl => _feedUrl;
-  // String get episode => _episode;
+  Episode? get episode => _episode;
 
   void setFeedUrl(String value) {
     _feedUrl = value;
     notifyListeners();
   }
 
-  // void setEpiode(String value) {
-  //   _episode = value;
-  //   notifyListeners();
-  // }
+  void setEpiode(Episode value) {
+    _episode = value;
+    notifyListeners();
+  }
 }

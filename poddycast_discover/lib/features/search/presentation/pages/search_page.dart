@@ -53,11 +53,20 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Poddycast.Discover'),
-        backgroundColor: Colors.transparent,
-        elevation: null,
-        shadowColor: Colors.transparent,
+        title: Text(
+          'Poddycast.Discover',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.blueAccent,
+        // backgroundColor: Colors.transparent,
+        // elevation: null,
+        // shadowColor: Colors.transparent,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.play_arrow),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Padding(
         padding: const EdgeInsets.all(21.0),
         child: Column(
