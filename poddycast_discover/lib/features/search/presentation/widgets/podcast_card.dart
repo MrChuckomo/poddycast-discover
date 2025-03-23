@@ -18,27 +18,36 @@ class PodcastCard extends StatefulWidget {
 }
 
 class _PodcastCardState extends State<PodcastCard> {
+  bool _isFeedLoading = false;
+
   void openSheet(BuildContext context) async {
     if (widget.feedUrl == '') return;
 
+    setState(() => _isFeedLoading = true);
     context.read<AudioFeedProvider>().setFeedUrl(widget.feedUrl);
     var feed = await Podcast.loadFeed(url: widget.feedUrl);
 
     showModalBottomSheet(
+      showDragHandle: true,
+      sheetAnimationStyle: AnimationStyle(
+        curve: Curves.easeOut,
+        duration: Duration(milliseconds: 700),
+      ),
       context: context,
       builder: (context) {
-        return SingleChildScrollView(
-          child: Column(
-            children: List.generate(feed.episodes.length, (index) {
-              return ListTile(
-                title: Text('${feed.episodes[index].title}'),
-                subtitle: Text('${feed.episodes[index].publicationDate}'),
-              );
-            }),
-          ),
+        return ListView.builder(
+          itemCount: feed.episodes.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(feed.episodes[index].title),
+              subtitle: Text('${feed.episodes[index].publicationDate}'),
+            );
+          },
         );
       },
-    );
+    ).whenComplete(() {
+      setState(() => _isFeedLoading = false);
+    });
   }
 
   @override
@@ -49,18 +58,25 @@ class _PodcastCardState extends State<PodcastCard> {
       color: const Color.fromARGB(255, 251, 245, 245),
       child: InkWell(
         onTap: () => openSheet(context),
-        child: Image.network(
-          widget.artworkUrl,
-          fit: BoxFit.cover,
-          loadingBuilder: (context, child, progress) {
-            if (progress == null) return child;
-            return Center(child: CircularProgressIndicator());
-          },
-          errorBuilder: (context, error, stackTrace) {
-            return Center(
-              child: Icon(Icons.broken_image, size: 50, color: Colors.grey),
-            );
-          },
+        child: Stack(
+          children: [
+            Image.network(
+              widget.artworkUrl,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, progress) {
+                if (progress == null) return child;
+                return Center(child: CircularProgressIndicator());
+              },
+              errorBuilder: (context, error, stackTrace) {
+                return Center(
+                  child: Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                );
+              },
+            ),
+            _isFeedLoading
+                ? Center(child: CircularProgressIndicator(color: Colors.white))
+                : SizedBox.shrink(),
+          ],
         ),
       ),
     );
