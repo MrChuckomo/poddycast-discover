@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:poddycast_discover/core/util/audio_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:poddycast_discover/features/search/presentation/pages/search_page.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
 
-void main() {
+void main() async {
+  await initAudioService();
   runApp(
     ChangeNotifierProvider(
       create: (context) => AudioFeedProvider(),
