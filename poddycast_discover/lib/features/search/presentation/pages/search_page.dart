@@ -25,7 +25,7 @@ class _SearchPageState extends State<SearchPage> {
     setState(() => _isLoading = true);
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     if (value.isEmpty) {
-      setState(() => _isLoading = false);
+      updateItems([]);
       return;
     }
 
@@ -38,8 +38,12 @@ class _SearchPageState extends State<SearchPage> {
   Future<void> request(String query) async {
     var iTunes = Search();
     var results = await iTunes.search(query);
+    updateItems(results.items);
+  }
+
+  void updateItems(List<Item> items) {
     setState(() {
-      _items = results.items;
+      _items = items;
       _isLoading = false;
     });
   }
@@ -83,8 +87,19 @@ class _SearchPageState extends State<SearchPage> {
               controller: _searchController,
               onChanged: searchItunes,
               decoration: InputDecoration(
-                hintText: 'Search...',
+                labelText: 'Search...',
                 border: OutlineInputBorder(),
+                suffixIcon:
+                    _searchController.text.isNotEmpty
+                        ? InkWell(
+                          onTap: () {
+                            _searchController.text = '';
+                            updateItems([]);
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          child: Icon(Icons.clear),
+                        )
+                        : null,
               ),
             ),
           ),
