@@ -3,7 +3,10 @@ import 'package:podcast_search/podcast_search.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/podcast_card.dart';
 
 class TopXPodcasts extends StatefulWidget {
-  const TopXPodcasts({super.key});
+  String? genre;
+  int limit;
+
+  TopXPodcasts({super.key, this.genre, this.limit = 10});
 
   @override
   State<TopXPodcasts> createState() => _TopXPodcastsState();
@@ -14,7 +17,10 @@ class _TopXPodcastsState extends State<TopXPodcasts> {
 
   Future<void> getPodcastCharts() async {
     var iTunes = Search();
-    var charts = await iTunes.charts(limit: 10);
+    var charts = await iTunes.charts(
+      limit: widget.limit,
+      genre: widget.genre ?? '',
+    );
     setState(() => _items = charts.items);
   }
 
@@ -31,7 +37,7 @@ class _TopXPodcastsState extends State<TopXPodcasts> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-          child: Text('Top 10 Podcasts'),
+          child: Text('Top ${widget.limit} ${widget.genre ?? ''} Podcasts'),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,

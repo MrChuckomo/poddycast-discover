@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
+import 'package:poddycast_discover/features/search/presentation/widgets/charts.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/player.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/search_results.dart';
-import 'package:poddycast_discover/features/search/presentation/widgets/top_x_podcasts.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
@@ -88,13 +88,14 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           ),
-          _items.isEmpty ? TopXPodcasts() : SizedBox.shrink(),
-          Expanded(
-            child:
-                _isLoading
-                    ? Center(child: CircularProgressIndicator())
-                    : SearchResults(items: _items),
-          ),
+          _items.isEmpty
+              ? Expanded(child: Charts())
+              : Expanded(
+                child:
+                    _isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : SearchResults(items: _items),
+              ),
         ],
       ),
     );
