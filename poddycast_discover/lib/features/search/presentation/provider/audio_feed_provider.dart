@@ -50,6 +50,7 @@ class AudioFeedProvider extends ChangeNotifier {
       );
       // Ensure audio session is active for iOS
       _player.play();
+      _player.setSpeed(1.7);
       _isPlaying = true;
       notifyListeners();
     } catch (e) {

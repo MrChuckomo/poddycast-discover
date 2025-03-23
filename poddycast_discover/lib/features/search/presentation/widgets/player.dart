@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:podcast_search/podcast_search.dart';
@@ -11,6 +13,10 @@ class Player extends StatefulWidget {
 }
 
 class _PlayerState extends State<Player> {
+  String getTitle(Episode ep) {
+    return '${ep.title.substring(0, min(ep.title.length, 32))}...';
+  }
+
   @override
   Widget build(BuildContext context) {
     final audioProvider = Provider.of<AudioFeedProvider>(context);
@@ -24,19 +30,12 @@ class _PlayerState extends State<Player> {
           leading:
               audioProvider.isLoading
                   ? CircularProgressIndicator()
-                  : Icon(
-                    isPlaying ? Icons.pause : Icons.play_arrow,
-                  ),
-          title: Text(ep?.title ?? ''),
+                  : Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+          title: Text(ep != null ? getTitle(ep) : ''),
           subtitle: Text(ep?.author ?? ''),
-          // trailing: Image.network(
-          //   context.read<AudioFeedProvider>().episode?.imageUrl ?? '',
-          // ),
+          trailing: Icon(Icons.more_vert_outlined),
           onTap:
-              () =>
-                  isPlaying
-                      ? audioProvider.pause()
-                      : audioProvider.resume(),
+              () => isPlaying ? audioProvider.pause() : audioProvider.resume(),
         );
       },
     );

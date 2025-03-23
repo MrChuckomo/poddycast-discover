@@ -20,6 +20,7 @@ class _ChartsState extends State<Charts> {
     TopXPodcasts(genre: 'Music'),
     TopXPodcasts(genre: 'Business'),
     TopXPodcasts(genre: 'Education'),
+    SizedBox(height: 120),
   ];
 
   @override
