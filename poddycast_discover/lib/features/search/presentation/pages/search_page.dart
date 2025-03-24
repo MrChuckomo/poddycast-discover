@@ -90,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
         children: [
           // Player(),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
             child: TextField(
               controller: _searchController,
               onChanged: searchItunes,
