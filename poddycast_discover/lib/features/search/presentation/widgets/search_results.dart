@@ -23,7 +23,8 @@ class _SearchResultsState extends State<SearchResults> {
         itemCount: widget.items.length,
         itemBuilder: (context, index) {
           return PodcastCard(
-            artworkUrl: widget.items[index].artworkUrl100 ?? '',
+            artworkUrlPreview: widget.items[index].artworkUrl100 ?? '',
+            artworkUrlHighRes: widget.items[index].artworkUrl600 ?? '',
             feedUrl: widget.items[index].feedUrl ?? '',
             // callback: () => callFeed(widget.items[index].feedUrl ?? ''),
           );

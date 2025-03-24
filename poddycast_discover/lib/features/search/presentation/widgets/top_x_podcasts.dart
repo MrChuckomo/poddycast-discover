@@ -49,7 +49,8 @@ class _TopXPodcastsState extends State<TopXPodcasts> {
                   height: 150,
                   width: 150,
                   child: PodcastCard(
-                    artworkUrl: _items[index].artworkUrl600 ?? '',
+                    artworkUrlPreview: _items[index].artworkUrl600 ?? '',
+                    artworkUrlHighRes: _items[index].artworkUrl600 ?? '',
                     feedUrl: _items[index].feedUrl ?? '',
                   ),
                 ),

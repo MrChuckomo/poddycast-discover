@@ -5,12 +5,14 @@ import 'package:podcast_search/podcast_search.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
 
 class PodcastCard extends StatefulWidget {
-  final String artworkUrl;
+  final String artworkUrlPreview;
+  final String artworkUrlHighRes;
   final String feedUrl;
 
   const PodcastCard({
     super.key,
-    required this.artworkUrl,
+    required this.artworkUrlPreview,
+    required this.artworkUrlHighRes,
     required this.feedUrl,
   });
 
@@ -26,6 +28,7 @@ class _PodcastCardState extends State<PodcastCard> {
 
     setState(() => _isFeedLoading = true);
     context.read<AudioFeedProvider>().setFeedUrl(widget.feedUrl);
+    context.read<AudioFeedProvider>().setArtworkUrl(widget.artworkUrlHighRes);
     var feed = await Podcast.loadFeed(url: widget.feedUrl);
 
     showModalBottomSheet(
@@ -85,7 +88,7 @@ class _PodcastCardState extends State<PodcastCard> {
         child: Stack(
           children: [
             Image.network(
-              widget.artworkUrl,
+              widget.artworkUrlPreview,
               fit: BoxFit.cover,
               loadingBuilder: (context, child, progress) {
                 if (progress == null) return child;

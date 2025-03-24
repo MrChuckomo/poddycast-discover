@@ -8,20 +8,22 @@ import 'package:podcast_search/podcast_search.dart';
 class AudioFeedProvider extends ChangeNotifier {
   final AudioPlayer _player = AudioPlayer();
   String _feedUrl = '';
+  String _artworkUrl = '';
   bool _isLoading = false;
   bool _isPlaying = false;
   Episode? _episode;
 
   String get feedUrl => _feedUrl;
+  String get artowkrUrl => _artworkUrl;
   Episode? get episode => _episode;
   bool get isLoading => _isLoading;
   bool get isPlaying => _isPlaying;
   AudioPlayer get player => _player;
 
   AudioFeedProvider() {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.black,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.black),
+    );
   }
 
   /// Load and play an audio file
@@ -29,6 +31,9 @@ class AudioFeedProvider extends ChangeNotifier {
     if (_episode?.contentUrl == episode.contentUrl && _isPlaying) {
       return; // Prevent reloading the same episode
     }
+
+    // Update to episode image if available
+    _artworkUrl = episode.imageUrl ?? _artworkUrl;
 
     setEpisode(episode);
     try {
@@ -41,10 +46,7 @@ class AudioFeedProvider extends ChangeNotifier {
             id: episode.contentUrl!,
             title: episode.title,
             artist: episode.author,
-            artUri:
-                (episode.imageUrl != null)
-                    ? Uri.parse(episode.imageUrl!)
-                    : null,
+            artUri: (_artworkUrl != '') ? Uri.parse(_artworkUrl) : null,
           ),
         ),
       );
@@ -72,6 +74,11 @@ class AudioFeedProvider extends ChangeNotifier {
   void resume() {
     _player.play();
     _isPlaying = true;
+    notifyListeners();
+  }
+
+  void setArtworkUrl(String value) {
+    _artworkUrl = value;
     notifyListeners();
   }
 
