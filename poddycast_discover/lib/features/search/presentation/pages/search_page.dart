@@ -69,18 +69,26 @@ class _SearchPageState extends State<SearchPage> {
         // elevation: null,
         // shadowColor: Colors.transparent,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed:
-            () =>
-                audioProvider.isPlaying
-                    ? audioProvider.pause()
-                    : audioProvider.resume(),
-        child: Icon(audioProvider.isPlaying ? Icons.pause : Icons.play_arrow),
+      floatingActionButton: Container(
+        padding: EdgeInsets.all(4.0),
+        width: 250,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(32),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 10,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Player(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
-          Player(),
+          // Player(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: TextField(
