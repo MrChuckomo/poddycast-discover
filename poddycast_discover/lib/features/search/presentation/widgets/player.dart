@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:podcast_search/podcast_search.dart';
+import 'package:poddycast_discover/core/util/formatter.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
 
 class Player extends StatefulWidget {
@@ -18,12 +19,6 @@ class _PlayerState extends State<Player> {
 
   String getTitle(Episode ep) {
     return '${ep.title.substring(0, min(ep.title.length, 32))}...';
-  }
-
-  String _formatDuration(Duration duration) {
-    final minutes = duration.inMinutes.toString().padLeft(2, '0');
-    final seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
-    return '$minutes:$seconds';
   }
 
   @override
@@ -89,7 +84,7 @@ class _PlayerState extends State<Player> {
                       },
                     ),
                     Text(
-                      '${_formatDuration(position)} / ${_formatDuration(duration)}',
+                      '${formatDuration(position)} / ${formatDuration(duration)}',
                     ),
                   ],
                 );
