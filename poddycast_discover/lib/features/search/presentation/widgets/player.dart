@@ -101,9 +101,21 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
                 final duration = durationSnapshot.data ?? Duration.zero;
                 return Column(
                   children: [
-                    Text(
-                      '${formatDuration(position)} / ${formatDuration(duration)}',
-                      style: TextStyle(fontSize: 12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            formatDuration(position),
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          Text(
+                            formatDuration(duration),
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
                     ),
                     Slider(
                       min: 0.0,
