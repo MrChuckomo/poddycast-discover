@@ -13,9 +13,38 @@ class Player extends StatefulWidget {
   State<Player> createState() => _PlayerState();
 }
 
-class _PlayerState extends State<Player> {
+class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
   bool _isDragging = false; // Track if slider is being dragged
   Duration _manualPosition = Duration.zero; // Hold position during drag
+  late ScrollController _scrollController;
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 15), // Adjust speed
+    )..repeat(); // Loops the animation
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _animationController.addListener(() {
+        if (_scrollController.hasClients) {
+          double maxScroll = _scrollController.position.maxScrollExtent;
+          double scrollPosition = _animationController.value * maxScroll;
+          _scrollController.jumpTo(scrollPosition);
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _animationController.dispose();
+    super.dispose();
+  }
 
   String getTitle(Episode ep) {
     return '${ep.title.substring(0, min(ep.title.length, 32))}...';
@@ -27,6 +56,7 @@ class _PlayerState extends State<Player> {
     Episode? ep = audioProvider.episode;
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         StreamBuilder<bool>(
           stream: audioProvider.player.playingStream,
@@ -37,8 +67,18 @@ class _PlayerState extends State<Player> {
                   audioProvider.isLoading
                       ? CircularProgressIndicator()
                       : Icon(isPlaying ? Icons.pause : Icons.play_arrow),
-              title: Text(ep != null ? getTitle(ep) : ''),
-              subtitle: Text(ep?.author ?? ''),
+              title: SingleChildScrollView(
+                controller: _scrollController,
+                scrollDirection: Axis.horizontal,
+                child: Text(
+                  ep?.title ?? '...',
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(fontSize: 12),
+                ),
+              ),
+              // subtitle: Text(ep?.author ?? ''),
               trailing: Icon(Icons.more_vert_outlined),
               onTap:
                   () =>
@@ -61,6 +101,10 @@ class _PlayerState extends State<Player> {
                 final duration = durationSnapshot.data ?? Duration.zero;
                 return Column(
                   children: [
+                    Text(
+                      '${formatDuration(position)} / ${formatDuration(duration)}',
+                      style: TextStyle(fontSize: 12),
+                    ),
                     Slider(
                       min: 0.0,
                       max: duration.inMilliseconds.toDouble(),
@@ -82,9 +126,6 @@ class _PlayerState extends State<Player> {
                           Duration(milliseconds: value.toInt()),
                         );
                       },
-                    ),
-                    Text(
-                      '${formatDuration(position)} / ${formatDuration(duration)}',
                     ),
                   ],
                 );
