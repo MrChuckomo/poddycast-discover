@@ -38,9 +38,7 @@ class _PodcastSheetContentState extends State<PodcastSheetContent> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return const Center(
-                  child: Text('An Error occured during loading the feed.'),
-                );
+                return Center(child: Text('Error: ${snapshot.error}'));
               } else if (snapshot.hasData) {
                 final episodes = snapshot.data!.episodes;
                 return ListView.builder(
