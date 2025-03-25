@@ -11,13 +11,15 @@ class AudioFeedProvider extends ChangeNotifier {
   String _artworkUrl = '';
   bool _isLoading = false;
   bool _isPlaying = false;
+  double _speed = 1.0;
   Episode? _episode;
 
   String get feedUrl => _feedUrl;
-  String get artowkrUrl => _artworkUrl;
+  String get artworkUrl=> _artworkUrl;
   Episode? get episode => _episode;
   bool get isLoading => _isLoading;
   bool get isPlaying => _isPlaying;
+  double get speed => _speed;
   AudioPlayer get player => _player;
 
   AudioFeedProvider() {
@@ -52,7 +54,7 @@ class AudioFeedProvider extends ChangeNotifier {
       );
       // Ensure audio session is active for iOS
       _player.play();
-      _player.setSpeed(1.7);
+      _player.setSpeed(_speed);
       _isPlaying = true;
       notifyListeners();
     } catch (e) {
@@ -74,6 +76,12 @@ class AudioFeedProvider extends ChangeNotifier {
   void resume() {
     _player.play();
     _isPlaying = true;
+    notifyListeners();
+  }
+
+  void setSpeed(double value) {
+    _speed = value;
+    _player.setSpeed(_speed);
     notifyListeners();
   }
 
