@@ -63,10 +63,26 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
           builder: (context, snapshot) {
             final isPlaying = snapshot.data ?? false;
             return ListTile(
-              leading:
+              leading: Stack(
+                alignment: Alignment.center,
+                children: [
+                  audioProvider.artowkrUrl == ''
+                      ? Icon(Icons.circle, size: 32, color: Colors.blueAccent,)
+                      : Card(
+                        clipBehavior: Clip.antiAlias,
+                        child: Image.network(
+                          audioProvider.artowkrUrl,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                   audioProvider.isLoading
                       ? CircularProgressIndicator()
-                      : Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+                      : Icon(
+                        isPlaying ? Icons.pause : Icons.play_arrow,
+                        color: Colors.white,
+                      ),
+                ],
+              ),
               title: SingleChildScrollView(
                 controller: _scrollController,
                 scrollDirection: Axis.horizontal,
@@ -79,17 +95,7 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
                 ),
               ),
               // subtitle: Text(ep?.author ?? ''),
-              // trailing: Icon(Icons.more_vert_outlined),
-              trailing:
-                  audioProvider.artowkrUrl == ''
-                      ? Icon(Icons.image)
-                      : Card(
-                        clipBehavior: Clip.antiAlias,
-                        child: Image.network(
-                          audioProvider.artowkrUrl,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+              trailing: Icon(Icons.more_vert_outlined),
               onTap:
                   () =>
                       isPlaying
