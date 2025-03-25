@@ -79,7 +79,17 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
                 ),
               ),
               // subtitle: Text(ep?.author ?? ''),
-              trailing: Icon(Icons.more_vert_outlined),
+              // trailing: Icon(Icons.more_vert_outlined),
+              trailing:
+                  audioProvider.artowkrUrl == ''
+                      ? Icon(Icons.image)
+                      : Card(
+                        clipBehavior: Clip.antiAlias,
+                        child: Image.network(
+                          audioProvider.artowkrUrl,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
               onTap:
                   () =>
                       isPlaying
