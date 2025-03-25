@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:poddycast_discover/features/search/presentation/widgets/podcast_sheet_content.dart';
 import 'package:provider/provider.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
@@ -23,13 +24,12 @@ class PodcastCard extends StatefulWidget {
 class _PodcastCardState extends State<PodcastCard> {
   bool _isFeedLoading = false;
 
-  void openSheet(BuildContext context) async {
+  void openSheet(BuildContext context) {
     if (widget.feedUrl == '') return;
 
     setState(() => _isFeedLoading = true);
     context.read<AudioFeedProvider>().setFeedUrl(widget.feedUrl);
     context.read<AudioFeedProvider>().setArtworkUrl(widget.artworkUrlHighRes);
-    var feed = await Podcast.loadFeed(url: widget.feedUrl);
 
     showModalBottomSheet(
       showDragHandle: true,
@@ -39,38 +39,7 @@ class _PodcastCardState extends State<PodcastCard> {
       ),
       context: context,
       builder: (context) {
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.manage_search_outlined),
-                  Icon(Icons.favorite_border_outlined),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: feed.episodes.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(feed.episodes[index].title),
-                    subtitle: Text(
-                      feed.episodes[index].publicationDate.toString(),
-                    ),
-                    onTap: () {
-                      context.read<AudioFeedProvider>().playEpisode(
-                        feed.episodes[index],
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        );
+        return PodcastSheetContent(feedUrl: widget.feedUrl);
       },
     ).whenComplete(() {
       setState(() => _isFeedLoading = false);
