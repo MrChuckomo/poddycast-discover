@@ -3,19 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
 
-class PodcastSheetContent extends StatefulWidget {
+class PodcastSheetContent extends StatelessWidget {
   final String feedUrl;
 
   const PodcastSheetContent({super.key, required this.feedUrl});
-
-  @override
-  State<PodcastSheetContent> createState() => _PodcastSheetContentState();
-}
-
-class _PodcastSheetContentState extends State<PodcastSheetContent> {
-  Future<Podcast> _fetchFeed() async {
-    return await Podcast.loadFeed(url: widget.feedUrl);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +24,7 @@ class _PodcastSheetContentState extends State<PodcastSheetContent> {
         ),
         Expanded(
           child: FutureBuilder<Podcast>(
-            future: _fetchFeed(),
+            future: Podcast.loadFeed(url: feedUrl),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
