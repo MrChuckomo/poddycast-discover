@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:podcast_search/podcast_search.dart';
-import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/charts.dart';
-import 'package:poddycast_discover/features/search/presentation/widgets/player.dart';
+import 'package:poddycast_discover/features/search/presentation/widgets/mini_player_holder.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/search_results.dart';
-import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -57,7 +55,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final audioProvider = Provider.of<AudioFeedProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -69,22 +66,7 @@ class _SearchPageState extends State<SearchPage> {
         // elevation: null,
         // shadowColor: Colors.transparent,
       ),
-      floatingActionButton: Container(
-        padding: EdgeInsets.all(4.0),
-        width: 250,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(32),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Player(),
-      ),
+      floatingActionButton: MiniPlayerHolder(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
