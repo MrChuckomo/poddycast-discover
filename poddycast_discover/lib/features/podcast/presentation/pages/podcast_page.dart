@@ -52,6 +52,9 @@ class _PodcastPageState extends State<PodcastPage> {
 
       //! FIXME: Scaffold probably dont like Expended in body (inside EpisodeList)
       body: EpisodeList(futurePodcastFeed: futurePodcastFeed),
+      // TODO: add a quick filter for the list
+      // TODO: How the count
+      // TODO: Show the artwork in a nice way
     );
   }
 }

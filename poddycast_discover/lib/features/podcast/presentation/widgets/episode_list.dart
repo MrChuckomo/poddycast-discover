@@ -1,3 +1,4 @@
+import 'package:animated_icon/animated_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:podcast_search/podcast_search.dart';
@@ -13,6 +14,11 @@ class EpisodeList extends StatefulWidget {
 }
 
 class _EpisodeListState extends State<EpisodeList> {
+  bool isEpisodePlaying(Episode item) {
+    Episode? currentPlayingEpisode = context.read<AudioFeedProvider>().episode;
+    return item.title == currentPlayingEpisode?.title;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -24,24 +30,29 @@ class _EpisodeListState extends State<EpisodeList> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
-            Episode? currentPlayingEpisode =
-                context.read<AudioFeedProvider>().episode;
             final episodes = snapshot.data!.episodes;
-
             return ListView.builder(
               itemCount: episodes.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(
-                    episodes[index].title,
-                    style: TextStyle(
-                      color:
-                          episodes[index].title == currentPlayingEpisode?.title
-                              ? Colors.blueAccent
-                              : Colors.black,
-                    ),
-                  ),
+                  title: Text(episodes[index].title),
                   subtitle: Text(episodes[index].publicationDate.toString()),
+                  selected: isEpisodePlaying(episodes[index]),
+                  selectedTileColor: Colors.blueAccent,
+                  selectedColor: Colors.white,
+                  trailing:
+                      isEpisodePlaying(episodes[index])
+                          ? AnimateIcon(
+                            onTap: () {},
+                            width: 32,
+                            iconType: IconType.continueAnimation,
+                            color: Colors.white,
+                            animateIcon: AnimateIcons.loading3,
+                            // animateIcon: AnimateIcons.mute,
+                            // animateIcon: AnimateIcons.pause,
+                            // animateIcon: AnimateIcons.wifiSearch,
+                          )
+                          : null,
                   onTap: () {
                     context.read<AudioFeedProvider>().playEpisode(
                       episodes[index],
