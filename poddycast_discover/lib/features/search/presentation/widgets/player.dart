@@ -60,6 +60,7 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
     return artwork == ''
         ? Icon(Icons.circle, size: 32, color: Colors.blueAccent)
         : Card(
+          elevation: 4,
           clipBehavior: Clip.antiAlias,
           child: Image.network(
             width: 50,
@@ -84,6 +85,12 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
     );
   }
 
+  double _getNormalizedProgressValue(Duration position, Duration duration) {
+    double normalizedProgress =
+        position.inMilliseconds / duration.inMilliseconds;
+    return normalizedProgress.clamp(0.0, 1.0); // Keep it in bounds
+  }
+
   @override
   Widget build(BuildContext context) {
     final audioProvider = Provider.of<AudioFeedProvider>(context);
@@ -92,7 +99,6 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-
         //* MARK: Main Elements
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -172,10 +178,54 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
                             ],
                           ),
                         ),
+
+                        //* MARK: Circle Progress
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                                final dest = position - Duration(seconds: 30);
+                                await audioProvider.player.seek(
+                                  Duration(milliseconds: dest.inMilliseconds),
+                                );
+                              },
+                              icon: Icon(Icons.replay_30_rounded),
+                            ),
+
+                            CircularProgressIndicator(
+                              value: _getNormalizedProgressValue(
+                                position,
+                                duration,
+                              ),
+                              strokeWidth: 3.0, // Thickness of the ring
+                              backgroundColor:
+                                  Colors
+                                      .grey
+                                      .shade300, // Optional: unfilled portion
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.blue,
+                              ), // Filled portion color
+                            ),
+
+                            IconButton(
+                              onPressed: () async {
+                                final dest = position + Duration(seconds: 30);
+                                await audioProvider.player.seek(
+                                  Duration(milliseconds: dest.inMilliseconds),
+                                );
+                              },
+                              icon: Icon(Icons.forward_30_rounded),
+                            ),
+                          ],
+                        ),
+
+                        //* MARK: Slider
                         Slider(
                           min: 0.0,
                           max: duration.inMilliseconds.toDouble(),
                           value: _getSliderValue(position, duration),
+                          activeColor: Colors.blueAccent,
                           onChanged: _updateSliderDragState,
                           onChangeEnd: (value) async {
                             _isDragging = false;
