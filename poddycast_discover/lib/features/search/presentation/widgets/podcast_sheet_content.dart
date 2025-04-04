@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
+import 'package:poddycast_discover/features/podcast/presentation/widgets/episode_list.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
 
@@ -18,11 +19,14 @@ class _PodcastSheetContentState extends State<PodcastSheetContent> {
   int episodeCount = 0;
 
   @override
-  void initState() {
-    super.initState();
-    futurePodcastFeed = Podcast.loadFeed(url: widget.feedUrl);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    futurePodcastFeed =
+        Provider.of<AudioFeedProvider>(context).futurePodcastFeed!;
     futurePodcastFeed.then((podcast) {
-      setState(() => episodeCount = podcast.episodes.length);
+      setState(() {
+        episodeCount = podcast.episodes.length;
+      });
     });
   }
 
@@ -31,51 +35,36 @@ class _PodcastSheetContentState extends State<PodcastSheetContent> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Icons.manage_search_outlined),
-              Icon(Icons.favorite_border_outlined),
               AnimatedFlipCounter(
                 duration: Duration(microseconds: 500),
                 prefix: 'Episodes:',
-                value: episodeCount,),
+                value: episodeCount,
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/podcast');
+                    },
+                    icon: Icon(Icons.manage_search_outlined),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      debugPrint('mark as favorite');
+                    },
+                    icon: Icon(Icons.favorite_border_outlined),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
-        Expanded(
-          child: FutureBuilder<Podcast>(
-            future: futurePodcastFeed,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (snapshot.hasData) {
-                final episodes = snapshot.data!.episodes;
-                return ListView.builder(
-                  itemCount: episodes.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(episodes[index].title),
-                      subtitle: Text(
-                        episodes[index].publicationDate.toString(),
-                      ),
-                      onTap: () {
-                        context.read<AudioFeedProvider>().playEpisode(
-                          episodes[index],
-                        );
-                      },
-                    );
-                  },
-                );
-              } else {
-                return const Center(child: Text('No data available'));
-              }
-            },
-          ),
-        ),
+        EpisodeList(futurePodcastFeed: futurePodcastFeed),
       ],
     );
   }
