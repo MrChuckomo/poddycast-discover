@@ -13,9 +13,10 @@ class AudioFeedProvider extends ChangeNotifier {
   bool _isPlaying = false;
   double _speed = 1.0;
   Episode? _episode;
+  Future<Podcast>? _futurePodcastFeed;
 
   String get feedUrl => _feedUrl;
-  String get artworkUrl=> _artworkUrl;
+  String get artworkUrl => _artworkUrl;
   Episode? get episode => _episode;
   bool get isLoading => _isLoading;
   bool get isPlaying => _isPlaying;
@@ -26,6 +27,13 @@ class AudioFeedProvider extends ChangeNotifier {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.black),
     );
+  }
+
+  Future<Podcast>? get futurePodcastFeed => _futurePodcastFeed;
+
+  void fetchFeed() {
+    _futurePodcastFeed = Podcast.loadFeed(url: _feedUrl);
+    notifyListeners();
   }
 
   /// Load and play an audio file
