@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:poddycast_discover/features/search/presentation/widgets/podcast_sheet_content.dart';
 import 'package:provider/provider.dart';
+import 'package:poddycast_discover/features/search/presentation/widgets/podcast_sheet_content.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
 
 class PodcastCard extends StatefulWidget {
@@ -29,7 +29,9 @@ class _PodcastCardState extends State<PodcastCard> {
     setState(() => _isFeedLoading = true);
     context.read<AudioFeedProvider>().setFeedUrl(widget.feedUrl);
     context.read<AudioFeedProvider>().setArtworkUrl(widget.artworkUrlHighRes);
+    context.read<AudioFeedProvider>().fetchFeed();
 
+    // Navigator.pushNamed(context, '/podcast');
     showModalBottomSheet(
       showDragHandle: true,
       sheetAnimationStyle: AnimationStyle(
