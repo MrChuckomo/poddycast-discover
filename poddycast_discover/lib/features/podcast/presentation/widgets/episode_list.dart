@@ -40,6 +40,12 @@ class _EpisodeListState extends State<EpisodeList> {
                   selected: isEpisodePlaying(episodes[index]),
                   selectedTileColor: Colors.blueAccent,
                   selectedColor: Colors.white,
+                  leading: Image.network(
+                    width: 25,
+                    height: 25,
+                    context.read<AudioFeedProvider>().artworkUrl,
+                    fit: BoxFit.cover,
+                  ),
                   trailing:
                       isEpisodePlaying(episodes[index])
                           ? AnimateIcon(

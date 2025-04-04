@@ -1,3 +1,4 @@
+import 'package:animated_icon/animated_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/player_speed_dial.dart';
 import 'package:provider/provider.dart';
@@ -125,6 +126,16 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
                             isPlaying ? Icons.pause : Icons.play_arrow,
                             color: Colors.white,
                           ),
+                          // : AnimateIcon(
+                          //   onTap: () {},
+                          //   width: 32,
+                          //   iconType: IconType.animatedOnTap,
+                          //   color: Colors.white,
+                          //   animateIcon: AnimateIcons.pause,
+                          //   // animateIcon: AnimateIcons.mute,
+                          //   // animateIcon: AnimateIcons.pause,
+                          //   // animateIcon: AnimateIcons.wifiSearch,
+                          // )
                     ],
                   ),
                 );

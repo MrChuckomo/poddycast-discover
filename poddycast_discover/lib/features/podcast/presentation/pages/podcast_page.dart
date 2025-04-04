@@ -1,3 +1,4 @@
+import 'package:animated_icon/animated_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:poddycast_discover/features/podcast/presentation/widgets/episode_list.dart';
@@ -51,7 +52,29 @@ class _PodcastPageState extends State<PodcastPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
 
       //! FIXME: Scaffold probably dont like Expended in body (inside EpisodeList)
-      body: EpisodeList(futurePodcastFeed: futurePodcastFeed),
+      body: Column(
+        children: [
+          Stack(
+            children: [
+              Container(
+                color: Colors.blueAccent,
+                width: double.infinity,
+                height: 135,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Image.network(
+                  width: 105,
+                  height: 105,
+                  context.read<AudioFeedProvider>().artworkUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
+          ),
+          EpisodeList(futurePodcastFeed: futurePodcastFeed),
+        ],
+      ),
       // TODO: add a quick filter for the list
       // TODO: How the count
       // TODO: Show the artwork in a nice way
