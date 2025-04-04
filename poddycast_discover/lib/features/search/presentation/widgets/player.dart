@@ -122,7 +122,7 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
                     children: [
                       _getArtwork(audioProvider.artworkUrl),
                       audioProvider.isLoading
-                          ? CircularProgressIndicator()
+                          ? CircularProgressIndicator(color: Colors.white)
                           : Icon(
                             isPlaying ? Icons.pause : Icons.play_arrow,
                             color: Colors.white,
