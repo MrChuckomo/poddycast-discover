@@ -1,6 +1,6 @@
 # Poddycast.Discover
 
-![Screenshot v1 Prototype](assets/screenshot.png)
+![Screenshot v1 Prototype](assets/screenshot2.png)
 
 ## Links
 
