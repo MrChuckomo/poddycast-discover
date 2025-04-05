@@ -1,3 +1,4 @@
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:animated_icon/animated_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:podcast_search/podcast_search.dart';
@@ -43,7 +44,6 @@ class _PodcastPageState extends State<PodcastPage> {
       data: appTheme,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(title),
           actions: [
             IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border)),
           ],
@@ -63,11 +63,28 @@ class _PodcastPageState extends State<PodcastPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Image.network(
-                    width: 105,
-                    height: 105,
-                    context.read<AudioFeedProvider>().artworkUrl,
-                    fit: BoxFit.cover,
+                  child: Row(
+                    children: [
+                      Image.network(
+                        width: 105,
+                        height: 105,
+                        context.read<AudioFeedProvider>().artworkUrl,
+                        fit: BoxFit.cover,
+                      ),
+                      const SizedBox(width: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(title, style: TextStyle(color: darkColor)),
+                          AnimatedFlipCounter(
+                            prefix: 'Episodes: ',
+                            value: episodeCount,
+                            curve: Curves.easeOut,
+                            textStyle: TextStyle(color: darkColor),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -76,7 +93,6 @@ class _PodcastPageState extends State<PodcastPage> {
           ],
         ),
         // TODO: add a quick filter for the list
-        // TODO: How the count
         // TODO: Show the artwork in a nice way
       ),
     );

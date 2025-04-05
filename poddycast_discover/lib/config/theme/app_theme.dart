@@ -21,6 +21,7 @@ final appTheme = ThemeData(
     titleTextStyle: TextStyle(fontSize: 18, color: darkColor),
     backgroundColor: primaryColor,
     foregroundColor: darkColor,
+    scrolledUnderElevation: 0,
   ),
 
   chipTheme: ChipThemeData(
