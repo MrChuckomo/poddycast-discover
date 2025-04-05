@@ -1,6 +1,7 @@
 import 'package:animated_icon/animated_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:podcast_search/podcast_search.dart';
+import 'package:poddycast_discover/config/theme/app_theme.dart';
 import 'package:poddycast_discover/features/podcast/presentation/widgets/episode_list.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/mini_player_holder.dart';
@@ -38,46 +39,46 @@ class _PodcastPageState extends State<PodcastPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
-        foregroundColor: Colors.white,
-        title: Text(title),
+    return Theme(
+      data: appTheme,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+          actions: [
+            IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border)),
+          ],
+        ),
+        floatingActionButton: MiniPlayerHolder(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
 
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border)),
-        ],
-      ),
-      floatingActionButton: MiniPlayerHolder(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-
-      //! FIXME: Scaffold probably dont like Expended in body (inside EpisodeList)
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                color: Colors.blueAccent,
-                width: double.infinity,
-                height: 135,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Image.network(
-                  width: 105,
-                  height: 105,
-                  context.read<AudioFeedProvider>().artworkUrl,
-                  fit: BoxFit.cover,
+        //! FIXME: Scaffold probably dont like Expended in body (inside EpisodeList)
+        body: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  color: primaryColor,
+                  width: double.infinity,
+                  height: 135,
                 ),
-              ),
-            ],
-          ),
-          EpisodeList(futurePodcastFeed: futurePodcastFeed),
-        ],
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Image.network(
+                    width: 105,
+                    height: 105,
+                    context.read<AudioFeedProvider>().artworkUrl,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+            EpisodeList(futurePodcastFeed: futurePodcastFeed),
+          ],
+        ),
+        // TODO: add a quick filter for the list
+        // TODO: How the count
+        // TODO: Show the artwork in a nice way
       ),
-      // TODO: add a quick filter for the list
-      // TODO: How the count
-      // TODO: Show the artwork in a nice way
     );
   }
 }

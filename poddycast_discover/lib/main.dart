@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:poddycast_discover/config/theme/app_theme.dart';
 import 'package:poddycast_discover/features/podcast/presentation/pages/podcast_page.dart';
 import 'package:provider/provider.dart';
 import 'package:poddycast_discover/features/search/presentation/pages/search_page.dart';
@@ -26,9 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Poddycast Discover',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-      ),
+      theme: appTheme,
       // debugShowCheckedModeBanner: false,
       initialRoute: '/search',
       routes: {

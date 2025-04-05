@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:podcast_search/podcast_search.dart';
+import 'package:poddycast_discover/config/theme/app_theme.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/charts.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/mini_player_holder.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/search_results.dart';
@@ -55,53 +56,50 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Poddycast.Discover',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.blueAccent,
-        // backgroundColor: Colors.transparent,
-        // elevation: null,
-        // shadowColor: Colors.transparent,
-      ),
-      floatingActionButton: MiniPlayerHolder(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Column(
-        children: [
-          // Player(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
-            child: TextField(
-              controller: _searchController,
-              onChanged: searchItunes,
-              decoration: InputDecoration(
-                labelText: 'Search...',
-                border: OutlineInputBorder(),
-                suffixIcon:
-                    _searchController.text.isNotEmpty
-                        ? InkWell(
-                          onTap: () {
-                            _searchController.text = '';
-                            updateItems([]);
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          },
-                          child: Icon(Icons.clear),
-                        )
-                        : null,
+    return Theme(
+      data: appTheme,
+      child: Scaffold(
+        appBar: AppBar(title: Text('Poddycast.Discover')),
+        floatingActionButton: MiniPlayerHolder(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: Column(
+          children: [
+            // Player(),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 8,
+              ),
+              child: TextField(
+                controller: _searchController,
+                onChanged: searchItunes,
+                decoration: InputDecoration(
+                  labelText: 'Search...',
+                  border: OutlineInputBorder(),
+                  suffixIcon:
+                      _searchController.text.isNotEmpty
+                          ? InkWell(
+                            onTap: () {
+                              _searchController.text = '';
+                              updateItems([]);
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            child: Icon(Icons.clear),
+                          )
+                          : null,
+                ),
               ),
             ),
-          ),
-          _items.isEmpty
-              ? Expanded(child: Charts())
-              : Expanded(
-                child:
-                    _isLoading
-                        ? Center(child: CircularProgressIndicator())
-                        : SearchResults(items: _items),
-              ),
-        ],
+            _items.isEmpty
+                ? Expanded(child: Charts())
+                : Expanded(
+                  child:
+                      _isLoading
+                          ? Center(child: CircularProgressIndicator())
+                          : SearchResults(items: _items),
+                ),
+          ],
+        ),
       ),
     );
   }

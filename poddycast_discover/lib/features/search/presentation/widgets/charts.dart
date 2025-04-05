@@ -50,10 +50,7 @@ class Genres extends StatelessWidget {
         children: List.generate(genres.length, (index) {
           return Padding(
             padding: const EdgeInsets.only(left: 12.0, right: 4.0),
-            child: Chip(
-              backgroundColor: Colors.blueAccent.withAlpha(32),
-              label: Text(genres[index]),
-            ),
+            child: Chip(label: Text(genres[index])),
           );
         }),
       ),

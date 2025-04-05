@@ -1,5 +1,6 @@
 import 'package:animated_icon/animated_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:poddycast_discover/config/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:podcast_search/podcast_search.dart';
 import 'package:poddycast_discover/features/search/presentation/provider/audio_feed_provider.dart';
@@ -38,8 +39,6 @@ class _EpisodeListState extends State<EpisodeList> {
                   title: Text(episodes[index].title),
                   subtitle: Text(episodes[index].publicationDate.toString()),
                   selected: isEpisodePlaying(episodes[index]),
-                  selectedTileColor: Colors.blueAccent,
-                  selectedColor: Colors.white,
                   leading: Image.network(
                     width: 25,
                     height: 25,
@@ -52,7 +51,7 @@ class _EpisodeListState extends State<EpisodeList> {
                             onTap: () {},
                             width: 32,
                             iconType: IconType.continueAnimation,
-                            color: Colors.white,
+                            color: darkColor,
                             animateIcon: AnimateIcons.loading3,
                             // animateIcon: AnimateIcons.mute,
                             // animateIcon: AnimateIcons.pause,
