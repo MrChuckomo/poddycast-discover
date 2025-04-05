@@ -51,6 +51,11 @@ final appTheme = ThemeData(
     selectedColor: darkColor,
   ),
 
+  sliderTheme: SliderThemeData(
+    activeTrackColor: secondaryColor.withValues(alpha: 0.8),
+    thumbColor: secondaryColor,
+  ),
+
   primaryTextTheme: TextTheme(
     headlineLarge: TextStyle(color: darkColor),
     headlineMedium: TextStyle(color: darkColor),

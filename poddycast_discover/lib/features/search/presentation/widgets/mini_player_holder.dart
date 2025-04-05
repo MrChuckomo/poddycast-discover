@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poddycast_discover/config/theme/app_theme.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/player.dart';
 
 class MiniPlayerHolder extends StatefulWidget {
@@ -15,7 +16,7 @@ class _MiniPlayerHolderState extends State<MiniPlayerHolder> {
       padding: EdgeInsets.all(4.0),
       width: 250,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: darkColor,
         borderRadius: BorderRadius.circular(32),
         boxShadow: [
           BoxShadow(

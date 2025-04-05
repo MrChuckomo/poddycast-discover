@@ -44,7 +44,6 @@ class _PlayerSpeedDialState extends State<PlayerSpeedDial> {
   @override
   Widget build(BuildContext context) {
     return MenuAnchor(
-      style: MenuStyle(backgroundColor: WidgetStatePropertyAll(Colors.white)),
       menuChildren: _getMenuItems(context),
       builder: (_, MenuController controller, Widget? child) {
         return IconButton(
@@ -57,7 +56,6 @@ class _PlayerSpeedDialState extends State<PlayerSpeedDial> {
           },
           icon: Badge(
             label: Text('${context.read<AudioFeedProvider>().speed}x'),
-            backgroundColor: Colors.blueAccent,
             child: Icon(Icons.speed),
           ),
         );

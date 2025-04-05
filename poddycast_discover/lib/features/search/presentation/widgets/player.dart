@@ -1,5 +1,6 @@
 import 'package:animated_icon/animated_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:poddycast_discover/config/theme/app_theme.dart';
 import 'package:poddycast_discover/features/search/presentation/widgets/player_speed_dial.dart';
 import 'package:provider/provider.dart';
 import 'package:podcast_search/podcast_search.dart';
@@ -57,7 +58,7 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
 
   Widget _getArtwork(String artwork) {
     return artwork == ''
-        ? Icon(Icons.circle, size: 32, color: Colors.blueAccent)
+        ? Icon(Icons.circle, size: 32, color: secondaryColor)
         : Card(
           elevation: 4,
           clipBehavior: Clip.antiAlias,
@@ -126,16 +127,16 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
                             isPlaying ? Icons.pause : Icons.play_arrow,
                             color: Colors.white,
                           ),
-                          // : AnimateIcon(
-                          //   onTap: () {},
-                          //   width: 32,
-                          //   iconType: IconType.animatedOnTap,
-                          //   color: Colors.white,
-                          //   animateIcon: AnimateIcons.pause,
-                          //   // animateIcon: AnimateIcons.mute,
-                          //   // animateIcon: AnimateIcons.pause,
-                          //   // animateIcon: AnimateIcons.wifiSearch,
-                          // )
+                      // : AnimateIcon(
+                      //   onTap: () {},
+                      //   width: 32,
+                      //   iconType: IconType.animatedOnTap,
+                      //   color: Colors.white,
+                      //   animateIcon: AnimateIcons.pause,
+                      //   // animateIcon: AnimateIcons.mute,
+                      //   // animateIcon: AnimateIcons.pause,
+                      //   // animateIcon: AnimateIcons.wifiSearch,
+                      // )
                     ],
                   ),
                 );
@@ -209,12 +210,7 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
                               ),
                               strokeWidth: 3.0, // Thickness of the ring
                               backgroundColor:
-                                  Colors
-                                      .grey
-                                      .shade300, // Optional: unfilled portion
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.blue,
-                              ), // Filled portion color
+                                  Colors.white12, // Optional: unfilled portion
                             ),
 
                             IconButton(
@@ -234,7 +230,6 @@ class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
                           min: 0.0,
                           max: duration.inMilliseconds.toDouble(),
                           value: _getSliderValue(position, duration),
-                          activeColor: Colors.blueAccent,
                           onChanged: _updateSliderDragState,
                           onChangeEnd: (value) async {
                             _isDragging = false;
