@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:audio_service/audio_service.dart';
@@ -32,7 +34,10 @@ class AudioFeedProvider extends ChangeNotifier {
   Future<Podcast>? get futurePodcastFeed => _futurePodcastFeed;
 
   void fetchFeed() {
-    _futurePodcastFeed = Podcast.loadFeed(url: _feedUrl);
+    final String sendableUrl = _feedUrl;
+    _futurePodcastFeed = Isolate.run<Podcast>(() async {
+      return Podcast.loadFeed(url: sendableUrl);
+    });
     notifyListeners();
   }
 
