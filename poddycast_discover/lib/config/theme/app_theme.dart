@@ -68,7 +68,7 @@ final appTheme = ThemeData(
     titleSmall: TextStyle(color: Colors.black),
     headlineMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
   ),
-  tabBarTheme: TabBarTheme(
+  tabBarTheme: TabBarThemeData(
     indicator: BoxDecoration(
       borderRadius: BorderRadius.circular(25.0),
       color: const Color(0xFF34274D),
