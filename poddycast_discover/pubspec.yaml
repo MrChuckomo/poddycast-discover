@@ -38,6 +38,7 @@ dependencies:
   animated_flip_counter: ^0.3.4
   cupertino_icons: ^1.0.8
   flutter_html: ^3.0.0
+  flutter_launcher_icons: ^0.14.4
   flutter_soloud: ^3.3.6
   heroicons: ^0.11.0
   just_audio: ^0.9.46

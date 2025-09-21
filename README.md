@@ -11,3 +11,9 @@
 - [provider](https://pub.dev/packages/provider)
 - [html](https://pub.dev/packages/flutter_html)
 - [animated_icon](https://pub.dev/packages/animated_icon)
+
+## Development
+
+```bash
+make build_icons
+```
