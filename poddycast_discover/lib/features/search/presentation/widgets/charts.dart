@@ -11,7 +11,7 @@ class Charts extends StatefulWidget {
 
 class _ChartsState extends State<Charts> {
   final List<Widget> categoryRows = [
-    Genres(),
+    // Genres(),
     TopXPodcasts(),
     TopXPodcasts(genre: 'True Crime'),
     TopXPodcasts(genre: 'Technology'),
@@ -25,7 +25,7 @@ class _ChartsState extends State<Charts> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return SliverList.builder(
       itemCount: categoryRows.length,
       itemBuilder: (context, index) {
         return categoryRows[index];

@@ -25,8 +25,9 @@ final appTheme = ThemeData(
   ),
 
   chipTheme: ChipThemeData(
-    backgroundColor: primaryColor,
-    labelStyle: TextStyle(color: darkColor),
+    backgroundColor: primaryColor.withValues(alpha: .1),
+    side: BorderSide(color: primaryColor.withValues(alpha: .3)),
+    labelStyle: TextStyle(color:primaryColor),
   ),
 
   inputDecorationTheme: InputDecorationTheme(
